@@ -17,6 +17,12 @@ jobs:
         with:
           python-version: '3.10'
 
+      # 💡 ត្រូវតែមានដំណាក់កាលនេះ ដើម្បីដំឡើង Chrome លើ Server GitHub
+      - name: Setup Google Chrome
+        uses: browser-actions/setup-chrome@v1
+        with:
+          chrome-version: stable
+
       - name: Install dependencies
         run: |
           pip install --upgrade pip
