@@ -11,28 +11,28 @@ def watch_video_thread(thread_id, video_url, agent, proxy):
     print(f"🚀 [Thread {thread_id}] ចាប់ផ្តើមដំណើរការជាមួយ IP: {proxy}")
     
     options = uc.ChromeOptions()
-    options.add_argument("--headless=new") # លាក់ផ្ទាំង Web
+    options.add_argument("--headless=new")
     options.add_argument("--mute-audio")
     options.add_argument(f"user-agent={agent}")
     options.add_argument(f"--proxy-server=http://{proxy}")
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
     
-    # 💡 បើករត់លើ GitHub (Linux) មិនបាច់ដាក់ binary_location ទេ វានឹងរកឃើញដោយស្វ័យប្រវត្ត
-    if os.name == 'nt': # ប្រសិនបើរត់លើ Windows PC របស់អ្នក ទើបវាប្រើផ្លូវនេះ
+    if os.name == 'nt': 
         options.binary_location = r"C:\Program Files\Google\Chrome\Application\chrome.exe"
     
     driver = None
     try:
         with driver_lock:
             print(f"🛠️ [Thread {thread_id}] កំពុងរៀបចំ និងបើក Browser...")
+            # 💡 កែសម្រួលត្រង់ចំណុចនេះ (ដក version_main ចេញ ដើម្បីកុំឱ្យខុស Version គ្នា)
             driver = uc.Chrome(options=options)
             time.sleep(2)
             
         driver.set_page_load_timeout(35)
         driver.get(video_url)
         
-        watch_time = random.randint(120, 180)
+        watch_time = random.randint(15, 25)
         print(f"📺 [Thread {thread_id}] កំពុងមើលវីដេអូ រង់ចាំ {watch_time} វិនាទី...")
         time.sleep(watch_time)
         
@@ -62,7 +62,7 @@ def get_live_proxies_fast_api(limit=3):
 
 # ==================== ដំណើរការកម្មវិធីមេ ====================
 if __name__ == "__main__":
-    target_video = "https://youtu.be/5eW-Q0FkXXA?si=RlfCw-cYoyXZC31v"
+    target_video = "https://youtu.be/YuWlVPwXnsc?si=GSbYei3r7sda1yKF"
     total_threads = 3  
     round_count = 1  
 
@@ -72,7 +72,6 @@ if __name__ == "__main__":
         "Mozilla/5.0 (Linux; Android 13; SM-S901B) AppleWebKit/537.36"
     ]
 
-    # 💡 លើ GitHub Actions មិនគួរប្រើ while True ទេ ព្រោះវាអាចជាប់គាំង (Hang)។ កំណត់ឱ្យរត់ត្រឹម ១០ ជុំ រួចឱ្យវាចប់ទៅចុះ ដើម្បីសុវត្ថិភាព Account
     max_rounds = 10 
     while round_count <= max_rounds:
         print(f"\n⚡🔄⚡ ================== ចាប់ផ្តើមរត់ AUTO ជុំទី {round_count}/{max_rounds} ================== ⚡🔄⚡")
