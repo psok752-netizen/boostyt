@@ -25,8 +25,13 @@ def watch_video_thread(thread_id, video_url, agent, proxy):
     try:
         with driver_lock:
             print(f"🛠️ [Thread {thread_id}] កំពុងរៀបចំ និងបើក Browser...")
-            # 💡 កែសម្រួលត្រង់ចំណុចនេះ (ដក version_main ចេញ ដើម្បីកុំឱ្យខុស Version គ្នា)
-            driver = uc.Chrome(options=options)
+            
+            # 💡 ដំណោះស្រាយ៖ បង្ខំឱ្យវាប្រើជំនាន់ ១៤៩ ទាំងនៅលើ Linux និង Windows
+            if os.name != 'nt':
+                driver = uc.Chrome(options=options, version_main=149)
+            else:
+                driver = uc.Chrome(options=options)
+                
             time.sleep(2)
             
         driver.set_page_load_timeout(35)
