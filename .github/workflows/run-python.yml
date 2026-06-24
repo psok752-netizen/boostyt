@@ -2,9 +2,8 @@ name: Run Python Script
 
 on:
   schedule:
-    # កូដនេះនឹងបញ្ជាឲ្យរត់រាល់ថ្ងៃនៅម៉ោង ៨:០០ ព្រឹក (ម៉ោងនៅកម្ពុជា)
     - cron: '0 1 * * *'
-  workflow_dispatch: # ប៊ូតុងសម្រាប់ចុច Run តេស្តដោយដៃផ្ទាល់
+  workflow_dispatch:
 
 jobs:
   run-bot:
@@ -21,11 +20,7 @@ jobs:
       - name: Install dependencies
         run: |
           pip install --upgrade pip
-          # បើកូដរបស់អ្នកមានប្រើប្រាស់ Library ក្រៅ (ដូចជា requests, selenium) ត្រូវសរសេរ pip install ថែមនៅទីនេះ
+          pip install requests
 
       - name: Execute Python Script
         run: python boostyt.py
-      - name: Install dependencies
-        run: |
-          pip install --upgrade pip
-          pip install requests
