@@ -26,7 +26,6 @@ def watch_video_thread(thread_id, video_url, agent, proxy):
         with driver_lock:
             print(f"🛠️ [Thread {thread_id}] កំពុងរៀបចំ និងបើក Browser...")
             
-            # 💡 ដំណោះស្រាយ៖ បង្ខំឱ្យវាប្រើជំនាន់ ១៤៩ ទាំងនៅលើ Linux និង Windows
             if os.name != 'nt':
                 driver = uc.Chrome(options=options, version_main=149)
             else:
@@ -65,7 +64,7 @@ def get_live_proxies_fast_api(limit=3):
         print(f"❌ មិនអាចទាញយក Proxy បានទេ៖ {e}")
         return []
 
-# ==================== ដំណើរការកម្មវិធីមេ ====================
+# ==================== ដំណើរការកម្មវិធីមេ (AUTO-RUN LOOP) ====================
 if __name__ == "__main__":
     target_video = "https://youtu.be/YuWlVPwXnsc?si=GSbYei3r7sda1yKF"
     total_threads = 3  
@@ -77,9 +76,9 @@ if __name__ == "__main__":
         "Mozilla/5.0 (Linux; Android 13; SM-S901B) AppleWebKit/537.36"
     ]
 
-    max_rounds = 10 
-    while round_count <= max_rounds:
-        print(f"\n⚡🔄⚡ ================== ចាប់ផ្តើមរត់ AUTO ជុំទី {round_count}/{max_rounds} ================== ⚡🔄⚡")
+    # 🔥 ប្រើ while True ដើម្បីឱ្យវា Run រហូតមិនចេះឈប់លើ Cloud
+    while True:
+        print(f"\n⚡🔄⚡ ================== ចាប់ផ្តើមរត់ AUTO ជុំទី {round_count} ================== ⚡🔄⚡")
         
         proxies_pool = get_live_proxies_fast_api(limit=total_threads)
         
@@ -98,10 +97,12 @@ if __name__ == "__main__":
             for t in threads_list:
                 t.join()
 
-            print(f"\n🎉 ជុំទី {round_count} ត្រូវបានបញ្ចប់សព្វគ្រប់!")
-            round_count += 1  
+            print(f"\n🎉 [មេកង] ជុំទី {round_count} ត្រូវបានបញ្ចប់សព្វគ្រប់!")
+            round_count += 1  # បូកជុំឡើងទៅមុខឥតកំណត់
             
+            # សម្រាក ១០ វិនាទី មុននឹងបុកជុំថ្មី
+            print("⏳ សម្រាក ១០ វិនាទី មុននឹងចាប់ផ្តើមជុំបន្ទាប់...")
             time.sleep(10)
         else:
-            print("❌ គ្មានទិន្នន័យ Proxy ទេ! រង់ចាំ ៣០ វិនាទី...")
+            print("❌ គ្មានទិន្នន័យ Proxy ទេ! រង់ចាំ ៣០ វិនាទី រួចសាកល្បងទៅបឺតយកម្តងទៀត...")
             time.sleep(30)
